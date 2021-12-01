@@ -1,4 +1,5 @@
 from utils import InvalidSign, InvalidCoordinate
+from random import randint
 
 class Board:
     '''A 3x3 board for playing tic-tac-toe that accepts moves from players.'''
@@ -15,8 +16,12 @@ class Board:
             if sign not in ['X', 'O']:
                 raise InvalidSign
             else:
+                coordinate_row = int(coordinate_row)
+                coordinate_col = int(coordinate_col)
                 self.coordinates[coordinate_row][coordinate_col] = sign
         except IndexError:
+            raise InvalidCoordinate
+        except ValueError:
             raise InvalidCoordinate
     def check(self, sign):
         '''Check whether someone won or not.'''
@@ -36,3 +41,12 @@ class Board:
         self.coordinates = [[' ', ' ', ' '],
                             [' ', ' ', ' '],
                             [' ', ' ', ' ']]
+class Bot:
+    '''Represents a robot that plays against the player'''
+    def __init__(self, board):
+        self.board = board
+    def move(self):
+        '''Make a random move.'''
+        coordinate_row = randint(0, 2)
+        coordinate_col = randint(0, 2)
+        self.board.accept_move(coordinate_row, coordinate_col)
